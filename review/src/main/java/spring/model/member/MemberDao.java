@@ -10,5 +10,5 @@ public interface MemberDao {
 	public boolean sign(Member member);
 	public List<Member> memberlist();
 	public Member login(String id, String pw);
-//public Member member(String id);
+	public String findid(String name, String email) throws Exception;
 }

@@ -69,7 +69,29 @@ public class MemberDaoImpl implements MemberDao{
 		
 		return member;
 		
+	}
+	
+	@Override
+	public String findid(String name, String email) throws Exception {
 		
+		String sql = "select * from p_member where name =? and email = ?";
+		
+		boolean result = jdbcTemplate.query(sql, new Object[] {name, email}, mapper).isEmpty();
+		
+		System.out.println(result);
+		
+		if(!result) {
+			
+			sql = "select * from p_member where name = ? and email = ?";
+			
+			String id = jdbcTemplate.query(sql, new Object[] {name, email}, mapper).get(0).getId();
+			
+			log.info(id);
+			
+			return id;
+		}else {
+			throw new Exception("해당하는 아이디 없음");
+		}
 	}
 
 	

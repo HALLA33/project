@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,17 +52,6 @@ public class MemberController {
 			@ModelAttribute Member member, @RequestParam String rpw) throws Exception {
 		log.info("sign() 실행");
 		
-//		Member member = new Member();
-//		member.setId(id);
-//		member.setPw(pw);
-//		member.setNickname(nickname);
-//		member.setEmail(email);
-//		member.setName(name);
-//		member.setGender(gender);
-//		member.setBirth(birth);
-//		member.setTelecom(telecom);
-//		member.setPhone(phone);
-		
 		if(!member.getPw().equals(rpw)) {
 			throw new Exception("비밀번호와 확인비밀번호 불일치");
 		}else if(member.getPw().equals(rpw)) {
@@ -89,7 +79,7 @@ public class MemberController {
 		return "member/member";
 		
 	}
-	
+	//로그인 처리
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(
 			@RequestParam String id,@RequestParam String pw, HttpSession session
@@ -105,13 +95,30 @@ public class MemberController {
 
 		return "redirect:/";
 	}
-	
+	//로그아웃 처리
 	@RequestMapping("logout")
 	public String logout(HttpSession session) {
 		
 		session.invalidate();
 		
 		return "redirect:/";
+	}
+	//아이디 찾기 뷰
+	@RequestMapping("/forget")
+	public String findidview() {
+		
+		
+		return "member/forget";
+	}
+	//아이디 찾기 처리
+	@RequestMapping(value = "/forget", method = RequestMethod.POST)
+	public String findid(@RequestParam String name, String email, HttpServletRequest request) throws Exception {
+		
+		String id = memberDao.findid(name, email);
+		
+		request.setAttribute("id",id);
+		
+		return "member/forget_suc";
 	}
 	
 
