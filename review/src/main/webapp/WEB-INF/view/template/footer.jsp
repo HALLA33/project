@@ -1,16 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
     <aside>
 		<div id="loginbar">
-			ID : <input type="text" placeholder="id">
+		<c:if test="${sessionScope.member eq null}">
+		<form action="login" method="post">
+			ID : <input type="text" placeholder="id" name = "id">
 			<br><br>
-			PW : <input type="password" placeholder="password"><input type="submit" value="login">
+			PW : <input type="password" placeholder="password" name = "pw">
+			<input type="submit" value="login">
 			<br><br>
-			<input type="checkbox"><small>로그인유지여부
-			</small>
+			<input type="checkbox"><small>로그인유지여부			
+		</form>		
 			<small><a href="#">회원가입</a></small>
 			<small><a href="#">ID/PW 찾기</a></small>
+		</c:if>
+		<c:if test = "${sessionScope.member ne null }">
+			닉네임 : ${sessionScope.member.nickname }&#40;${sessionScope.member.id}&#41;<br>
+			포인트 : ${sessionScope.member.point }<br>
+			<input type="button" value="로그아웃" onclick="location.href='logout'"> 
+		</c:if>
+			</small>
 		</div>
 		<div>
 			추천&랭킹

@@ -1,4 +1,4 @@
-package spring.model;
+package spring.model.board;
 
 import java.util.List;
 
